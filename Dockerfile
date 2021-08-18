@@ -9,16 +9,16 @@ LABEL org.label-schema.build-date="${BUILD_DATE}" \
       org.label-schema.usage="https://github.com/illuspas/Node-Media-Server#readme" \
       org.label-schema.vcs-ref="${VCS_REF}" \
       org.label-schema.vcs-url="https://github.com/illuspas/Node-Media-Server" \
-      org.label-schema.vendor="illuspas" \
+      org.label-schema.vendor="Droneit-es" \
       org.label-schema.version="2.3.3" \
-      maintainer="https://github.com/illuspas"
+      maintainer="https://github.com/rubengargar"
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
 
 RUN npm i
-RUN apk update && apkd add ffmpeg
+RUN apk update && apk add ffmpeg
 
 COPY . .
 
