@@ -69,6 +69,23 @@ const config = {
         dashFlags: '[f=dash:window_size=3:extra_window_size=5]'
       }
     ]
+  },
+  fission: {
+    ffmpeg: '/usr/bin/ffmpeg',
+    tasks: [
+      {
+        rule: "show/*",
+        model: [
+          {
+            ab: "64k",
+            vb: "600k",
+            vs: "360x640",
+            vf: "20",
+            g: "50",
+          }
+        ]
+      }
+    ]
   }
 };
 

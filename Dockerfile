@@ -18,7 +18,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm i
-RUN apk update && apk add ffmpeg
+RUN apk update
+RUN apk add ffmpeg
 
 COPY . .
 
