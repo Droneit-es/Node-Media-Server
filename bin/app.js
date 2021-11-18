@@ -57,6 +57,35 @@ const config = {
     play: false,
     publish: false,
     secret: 'nodemedia2017privatekey'
+  },
+  trans: {
+    ffmpeg: '/usr/bin/ffmpeg',
+    tasks: [
+      {
+        app: 'live',
+        hls: true,
+        hlsFlags: '[hls_time=2:hls_list_size=3:hls_flags=delete_segments]',
+        dash: true,
+        dashFlags: '[f=dash:window_size=3:extra_window_size=5]'
+      }
+    ]
+  },
+  fission: {
+    ffmpeg: '/usr/bin/ffmpeg',
+    tasks: [
+      {
+        rule: "show/*",
+        model: [
+          {
+            ab: "64k",
+            vb: "600k",
+            vs: "360x640",
+            vf: "20",
+            g: "50",
+          }
+        ]
+      }
+    ]
   }
 };
 
