@@ -33,3 +33,5 @@ node_modules
 *.mpd
 
 .vscode
+deploy/apikey
+deploy/playerkey

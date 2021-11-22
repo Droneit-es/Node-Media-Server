@@ -1,5 +1,29 @@
 #!/usr/bin/env node 
 
+// docker secrets loader
+
+// dependencies
+const fs = require('fs');
+const log = require('../log');
+
+const dockerSecret = {};
+
+dockerSecret.read = function read(secretName) {
+  try {
+    return fs.readFileSync(`/run/secrets/${secretName}`, 'utf8');
+  } catch(err) {
+    if (err.code !== 'ENOENT') {
+      log.error(`An error occurred while trying to read the secret: ${secretName}. Err: ${err}`);
+    } else {
+      log.debug(`Could not find the secret, probably not running in swarm mode: ${secretName}. Err: ${err}`);
+    }    
+    return false;
+  }
+};
+
+module.exports = dockerSecret;
+
+// nms
 const NodeMediaServer = require('..');
 let argv = require('minimist')(process.argv.slice(2),
   {
@@ -53,10 +77,12 @@ const config = {
   auth: {
     api: true,
     api_user: 'admin',
-    api_pass: 'admin',
+    //api_pass: 'admin',
+    api_pass: secrets.read('.apikey'),
     play: false,
     publish: false,
-    secret: 'nodemedia2017privatekey'
+    //secret: 'nodemedia2017privatekey'
+    secret: secrets.read('.playerkey')
   },
   trans: {
     ffmpeg: '/usr/bin/ffmpeg',

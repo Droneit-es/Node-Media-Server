@@ -6,15 +6,16 @@ services:
     container_name: nms
     restart: unless-stopped
     secrets:
-      - github_webhook
+      - apikey
+      - playerkey
     volumes:
-      - /mnt/user/appdata/nginx/letsencrypt/:/etc/letsencrypt
+      - "./mnt/user/appdata/nginx/letsencrypt/:/etc/letsencrypt"
     ports:
       - 1935:1935
       - 8000:8000
       - 8443:8443
     networks:
-      - lsio
+      lsio: {}
 
   nginx:
    image: 'jc21/nginx-proxy-manager:latest'
@@ -23,16 +24,22 @@ services:
     - '80:80' #Public HTTP Port
     - '443:443' #Public HTTPS Port
     - '81:81' #Admin Web Port
-  networks:
-    - lsio
-  volumes:
-    - ./mnt/user/appdata/nginx/data:/data
-    - ./mnt/user/appdata/nginx/letsencrypt:/etc/letsencrypt 
+   volumes:
+    - "./mnt/user/appdata/nginx/data:/data"
+    - "./mnt/user/appdata/nginx/letsencrypt:/etc/letsencrypt"
+   networks:
+    lsio: {}
+ 
+
+secrets:
+  apikey:
+    file: .apikey
+  playerkey:
+    file: .playerkey
+
 
 networks:
   lsio:
     driver: bridge
+    name: lsio
 
-secrets:
-  github_webhook:
-    file: ./github_webhook.secret
